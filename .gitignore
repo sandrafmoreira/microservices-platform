@@ -34,3 +34,7 @@ coverage/
 
 # OS generated files
 Thumbs.db
+
+.env
+
+txt.txt

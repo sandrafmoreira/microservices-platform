@@ -20,8 +20,14 @@ import java.util.Optional;
 @RequestMapping("/favorites")
 public class FavoriteController {
 
-    @Autowired
-    private FavoriteRepository repository;
+    // @Autowired
+    // private FavoriteRepository repository;
+
+    private final FavoriteRepository repository;
+
+    public FavoriteController (FavoriteRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping
     public ResponseEntity<ServiceResponse<Favorite>> createFavorite(@RequestBody Favorite favorite, @RequestHeader("Authorization") String authHeader) {
@@ -65,7 +71,7 @@ public class FavoriteController {
                 entity,
                 String.class);
             
-            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            if (!response.getStatusCode().equals(HttpStatus.OK)) { 
 
                 ServiceResponse<Favorite> res = new ServiceResponse<>("POST Favorite Request failed." ,null);
                 return ResponseEntity.badRequest().body(res);

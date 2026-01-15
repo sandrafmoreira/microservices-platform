@@ -18,8 +18,8 @@ app.use("/ratings",ratingsRoutes);
 
 
 // Start server
-const PORT = process.env.PORT ;
-const HOST = process.env.HOST;
+const PORT = 3004;
+const HOST = "127.0.0.1";
 app.listen(PORT, () => logger.info(`Ratings service running on http://${HOST}:${PORT}/`));
  
 

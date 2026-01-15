@@ -5,7 +5,7 @@
     "description": "Swagger documentation for Notifications Microservice",
     "version": "1.0.0"
   },
-  "host": "localhost:3003",
+  "host": "localhost:3002",
   "basePath": "/",
   "tags": [
     {

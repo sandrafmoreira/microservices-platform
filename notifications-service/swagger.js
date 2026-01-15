@@ -5,7 +5,7 @@ const doc = {
         title: "Notifications Service API", 
         description: "Swagger documentation for Notifications Microservice", 
     }, 
-    host: "localhost:3003", 
+    host: "localhost:3002", 
     schemes: ["http"], 
     tags: [ // the sections that will be presented in swagger page 
         { name: "Notifications", description: "Endpoints related to notifications" }, 
