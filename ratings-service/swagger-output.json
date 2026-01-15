@@ -1,0 +1,368 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Ratings Service API",
+    "description": "Swagger documentation for Ratings Microservice",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3004",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Ratings",
+      "description": "Endpoints related to ratings management"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/ratings/": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "description": "Endpoint to list all ratings",
+        "responses": {
+          "200": {
+            "description": "All ratings retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "$ref": "#/definitions/GetRating"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Ratings"
+        ],
+        "description": "Endpoint to create a new rating",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Object to create a rating",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateRating"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Rating created successfully",
+            "schema": {
+              "$ref": "#/definitions/PostRating"
+            }
+          },
+          "400": {
+            "description": "Invalid data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal error."
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/ratings/{id}": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "description": "Endpoint to get a rating by its Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rating retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/GetRating"
+            }
+          },
+          "404": {
+            "description": "Rating not found."
+          },
+          "500": {
+            "description": "Internal error."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Ratings"
+        ],
+        "description": "Endpoint to update a rating by its Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Object to update a rating",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateRating"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rating updated successfully",
+            "schema": {
+              "$ref": "#/definitions/GetRating"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Access denied."
+          },
+          "404": {
+            "description": "Rating not found."
+          },
+          "500": {
+            "description": "Internal error."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ratings"
+        ],
+        "description": "Endpoint to delete a rating by its Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Access denied."
+          },
+          "404": {
+            "description": "Rating not found."
+          },
+          "500": {
+            "description": "Internal error."
+          }
+        }
+      }
+    },
+    "/ratings/markets/{id}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "description": "Endpoint to get all ratings of a specific market",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ratings retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "$ref": "#/definitions/GetRating"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No ratings found for this market."
+          },
+          "500": {
+            "description": "Internal error."
+          }
+        }
+      }
+    },
+    "/ratings/users/{id}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "description": "Endpoint to get all ratings of a specific user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ratings retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "$ref": "#/definitions/GetRating"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Access denied."
+          },
+          "404": {
+            "description": "No ratings found for this user."
+          },
+          "500": {
+            "description": "Internal error."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateRating": {
+      "type": "object",
+      "properties": {
+        "market_id": {
+          "type": "string",
+          "example": "6587f1a2b3c4d5e6f7a8b9c0"
+        },
+        "rating": {
+          "type": "number",
+          "example": 5
+        },
+        "comment": {
+          "type": "string",
+          "example": "Excelente feira, produtos muito frescos!"
+        }
+      }
+    },
+    "GetRating": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "6587f1a2b3c4d5e6f7a8b9c0"
+        },
+        "user_id": {
+          "type": "string",
+          "example": "69317c1d009c3bf3f0e6e464"
+        },
+        "market_id": {
+          "type": "string",
+          "example": "6587f1a2b3c4d5e6f7a8b9c0"
+        },
+        "rating": {
+          "type": "number",
+          "example": 5
+        },
+        "comment": {
+          "type": "string",
+          "example": "Excelente feira, produtos muito frescos!"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-12-25T10:00:00.000Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2023-12-25T10:00:00.000Z"
+        },
+        "__v": {
+          "type": "number",
+          "example": 0
+        }
+      }
+    },
+    "PostRating": {
+      "$ref": "#/definitions/GetRating"
+    }
+  }
+}

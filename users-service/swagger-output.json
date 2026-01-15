@@ -1,0 +1,753 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Users Service API",
+    "description": "Swagger documentation for Users Microservice",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Endpoints related to users"
+    },
+    {
+      "name": "Sellers",
+      "description": "Endpoints related to sellers"
+    },
+    {
+      "name": "Questionnaires",
+      "description": "Endpoints related to questionnaires"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users found successfully",
+            "schema": {
+              "$ref": "#/definitions/GetUser"
+            }
+          },
+          "400": {
+            "description": "Order must be ascending or descending!"
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Users not found"
+          },
+          "500": {
+            "description": "Failed to fetch users"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found successfully",
+            "schema": {
+              "$ref": "#/definitions/GetUser"
+            }
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "User was not found"
+          },
+          "500": {
+            "description": "Failed to fetch users"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update an user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User info updated successfully",
+            "schema": {
+              "$ref": "#/definitions/GetUser"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Email already exists"
+          },
+          "500": {
+            "description": "Failed to fetch users"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Failed to fetch users"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateUser"
+            }
+          },
+          "400": {
+            "description": "All fields are required."
+          },
+          "409": {
+            "description": "Email already exists"
+          },
+          "500": {
+            "description": "Failed to fetch users"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "example": "any"
+                },
+                "schema": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found successfully",
+            "schema": {
+              "$ref": "#/definitions/GetUser"
+            }
+          },
+          "401": {
+            "description": "Invalid Credentials"
+          },
+          "404": {
+            "description": "Cannot find any user with the written email!"
+          },
+          "500": {
+            "description": "Failed to fetch user"
+          }
+        }
+      }
+    },
+    "/users/sellers/{id}": {
+      "get": {
+        "tags": [
+          "Sellers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller found successfully",
+            "schema": {
+              "$ref": "#/definitions/GetSeller"
+            }
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Seller was not found"
+          },
+          "500": {
+            "description": "Failed to fetch seller"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sellers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New seller object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateSeller"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Seller created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateSeller"
+            }
+          },
+          "400": {
+            "description": "Description field is missing."
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Seller was not found"
+          },
+          "500": {
+            "description": "Failed to fetch Sellers."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sellers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New seller object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateSeller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Seller created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateSeller"
+            }
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Seller was not found"
+          },
+          "500": {
+            "description": "Failed to fetch Sellers."
+          }
+        }
+      }
+    },
+    "/users/sellers/": {
+      "post": {
+        "tags": [
+          "Sellers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New seller object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateSeller"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Seller created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateSeller"
+            }
+          },
+          "400": {
+            "description": "Description field is missing."
+          },
+          "500": {
+            "description": "Failed to fetch sellers."
+          }
+        }
+      }
+    },
+    "/users/questionnaires/{id}": {
+      "get": {
+        "tags": [
+          "Questionnaires"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Questionnaire found successfully",
+            "schema": {
+              "$ref": "#/definitions/GetQuestionnaire"
+            }
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Questionnaire was not found"
+          },
+          "500": {
+            "description": "Failed to fetch Questionnaires"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Questionnaires"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New questionnaire object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateQuestionnaire"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Questionnaire created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateQuestionnaire"
+            }
+          },
+          "400": {
+            "description": "Current location field is missing."
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Questionnaire was not found"
+          },
+          "500": {
+            "description": "Failed to fetch questionnaires."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Questionnaires"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New questionnaire object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateQuestionnaire"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Questionnaire created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateQuestionnaire"
+            }
+          },
+          "401": {
+            "description": "No access token provided"
+          },
+          "403": {
+            "description": "You are not allowed to access this endpoint"
+          },
+          "404": {
+            "description": "Questionnaire was not found"
+          },
+          "500": {
+            "description": "Failed to fetch questionnaires."
+          }
+        }
+      }
+    },
+    "/users/questionnaires/": {
+      "post": {
+        "tags": [
+          "Questionnaires"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New questionnaire object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateQuestionnaire"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Questionnaire created successfully",
+            "schema": {
+              "$ref": "#/definitions/CreateQuestionnaire"
+            }
+          },
+          "400": {
+            "description": "Current location field is missing."
+          },
+          "500": {
+            "description": "Failed to fetch Questionnaires."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetUser": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "number",
+          "example": 123
+        },
+        "full_name": {
+          "type": "string",
+          "example": "Example Name"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@mail.com"
+        },
+        "role": {
+          "type": "string",
+          "example": "buyer/seller"
+        }
+      }
+    },
+    "CreateUser": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "example": "Example Name"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@mail.com"
+        },
+        "role": {
+          "type": "string",
+          "example": "buyer/seller"
+        },
+        "accessToken": {
+          "type": "string",
+          "example": "super-secret-token"
+        }
+      }
+    },
+    "GetSeller": {
+      "type": "object",
+      "properties": {
+        "seller_id": {
+          "type": "number",
+          "example": 123
+        },
+        "description": {
+          "type": "string",
+          "example": "A beautiful description"
+        },
+        "product_type_id": {
+          "type": "number",
+          "example": 321
+        },
+        "avatar": {
+          "type": "string",
+          "example": "url/to/avatar"
+        },
+        "alert": {
+          "type": "string",
+          "example": "I am not selling oranges tomorrow! :("
+        }
+      }
+    },
+    "CreateSeller": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "A beautiful description"
+        },
+        "product_type_id": {
+          "type": "number",
+          "example": 321
+        },
+        "avatar": {
+          "type": "string",
+          "example": "url/to/avatar"
+        },
+        "alert": {
+          "type": "string",
+          "example": "I am not selling oranges tomorrow! :("
+        }
+      }
+    },
+    "GetQuestionnaire": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "number",
+          "example": 123
+        },
+        "current_location": {
+          "type": "string",
+          "example": "Beach Town"
+        },
+        "product_type_id": {
+          "type": "number",
+          "example": 321
+        }
+      }
+    },
+    "CreateQuestionnaire": {
+      "type": "object",
+      "properties": {
+        "current_location": {
+          "type": "string",
+          "example": "Beach Town"
+        },
+        "product_type_id": {
+          "type": "number",
+          "example": 321
+        }
+      }
+    }
+  }
+}
